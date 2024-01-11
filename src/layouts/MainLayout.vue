@@ -1,21 +1,39 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh lpR fFf" class="bg-grey-1">
+    <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
         <q-btn
           flat
           dense
           round
-          icon="menu"
-          aria-label="Menu"
           @click="toggleLeftDrawer"
+          aria-label="Menu"
+          icon="menu"
         />
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
+        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
+          <q-toolbar-title shrink class="text-weight-bold">
+            Logomarca aqui
+          </q-toolbar-title>
+        </q-btn>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-space />
+
+        <div class="YL__toolbar-input-container row no-wrap">
+          <q-input dense outlined square v-model="search" placeholder="Search" class="bg-white col" />
+          <q-btn class="YL__toolbar-input-btn" color="grey-3" text-color="grey-8" icon="search" unelevated />
+        </div>
+
+        <q-space />
+
+        <div class="q-gutter-sm row items-center no-wrap">
+          <q-btn round dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm">
+            Carrinho
+          </q-btn>
+          <q-btn round dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
+            Login
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -23,20 +41,24 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
+      class="bg-grey-2"
+      :width="240"
     >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+      <q-scroll-area class="fit">
+        <q-list padding>
+          <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
+            <q-item-section avatar>
+              <q-icon color="grey" :name="link.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>{{ link.text }}</q-item-label>
+            </q-item-section>
+          </q-item>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
+          <q-separator class="q-my-md" />
+          
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
@@ -46,71 +68,60 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { ref } from 'vue'
+import { fabYoutube } from '@quasar/extras/fontawesome-v6'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
+export default {
+  name: 'MyLayout',
 
   setup () {
     const leftDrawerOpen = ref(false)
+    const search = ref('')
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
 
     return {
-      essentialLinks: linksList,
+      fabYoutube,
+
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      search,
+
+      toggleLeftDrawer,
+
+      links1: [
+        { icon: 'clock', text: 'Categoria' },
+        { icon: 'clock', text: 'Categoria' },
+        { icon: 'clock', text: 'Categoria' }
+      ],
+      
     }
   }
-})
+}
 </script>
+
+<style lang="sass">
+.YL
+
+  &__toolbar-input-container
+    min-width: 100px
+    width: 55%
+
+  &__toolbar-input-btn
+    border-radius: 0
+    border-style: solid
+    border-width: 1px 1px 1px 0
+    border-color: rgba(0,0,0,.24)
+    max-width: 60px
+    width: 100%
+
+  &__drawer-footer-link
+    color: inherit
+    text-decoration: none
+    font-weight: 500
+    font-size: .75rem
+
+    &:hover
+      color: #000
+</style>
