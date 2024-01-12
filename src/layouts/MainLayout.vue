@@ -1,15 +1,14 @@
 <template>
-  <q-layout view="hHh lpR fFf" class="bg-grey-1">
+  <q-layout view="hHh lpR fff" class="bg-grey-1">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
+      <div class="row text-center">
+        <span class="col"><q-icon name="ion-pin" class="q-mr-sm"></q-icon>Frete grátis para todo o estado de SP</span>
+      </div>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="toggleLeftDrawer"
-          aria-label="Menu"
-          icon="menu"
-        />
+        <q-btn flat dense round @click="toggleLeftDrawer" aria-label="Menu" icon="menu">
+          <q-tooltip>Categorias</q-tooltip>
+        </q-btn>
+
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
           <q-toolbar-title shrink class="text-weight-bold">
@@ -26,24 +25,18 @@
 
         <q-space />
 
-        <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm">
+        <div class="q-gutter-sm row items-center no-wrap q-mr-xl">
+          <q-btn dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm" class="q-mr-xl">
             Carrinho
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
+          <q-btn dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
             Login
           </q-btn>
         </div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      class="bg-grey-2"
-      :width="240"
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2" :width="180">
       <q-scroll-area class="fit">
         <q-list padding>
           <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
@@ -56,10 +49,16 @@
           </q-item>
 
           <q-separator class="q-my-md" />
-          
+
         </q-list>
       </q-scroll-area>
     </q-drawer>
+
+    <q-footer>
+      <div class="row text-center">
+        <span class="col">rodapé</span>
+      </div>
+    </q-footer>
 
     <q-page-container>
       <router-view />
@@ -68,19 +67,20 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { fabYoutube } from '@quasar/extras/fontawesome-v6'
 
 export default {
   name: 'MyLayout',
 
-  setup () {
-    const leftDrawerOpen = ref(false)
+  setup() {
+    const leftDrawerOpen = ref(true)
     const search = ref('')
 
-    function toggleLeftDrawer () {
+    function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value
     }
+
 
     return {
       fabYoutube,
@@ -90,12 +90,14 @@ export default {
 
       toggleLeftDrawer,
 
+      
+
       links1: [
         { icon: 'clock', text: 'Categoria' },
         { icon: 'clock', text: 'Categoria' },
         { icon: 'clock', text: 'Categoria' }
       ],
-      
+
     }
   }
 }
