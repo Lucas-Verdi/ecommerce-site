@@ -30,7 +30,18 @@
             Carrinho
           </q-btn>
           <q-btn dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
-            Login
+            Login/Cadastro
+            <q-menu>
+              <q-list>
+                <q-item clickable>
+                  <q-item-section><router-link class="router" to="/login">Fazer login</router-link></q-item-section>
+                </q-item>
+                <q-separator></q-separator>
+                <q-item clickable v-close-popup>
+                  <q-item-section><router-link class="router" to="/cadastro">Realizar cadastro</router-link></q-item-section>
+                </q-item>
+              </q-list>
+                </q-menu>
           </q-btn>
         </div>
       </q-toolbar>
@@ -69,37 +80,29 @@
 <script>
 import { ref, shallowRef } from 'vue'
 import { fabYoutube } from '@quasar/extras/fontawesome-v6'
+import { QList } from 'quasar'
 
 export default {
-  name: 'MyLayout',
-
-  setup() {
-    const leftDrawerOpen = ref(true)
-    const search = ref('')
-
-    function toggleLeftDrawer() {
-      leftDrawerOpen.value = !leftDrawerOpen.value
-    }
-
-
-    return {
-      fabYoutube,
-
-      leftDrawerOpen,
-      search,
-
-      toggleLeftDrawer,
-
-      
-
-      links1: [
-        { icon: 'clock', text: 'Categoria' },
-        { icon: 'clock', text: 'Categoria' },
-        { icon: 'clock', text: 'Categoria' }
-      ],
-
-    }
-  }
+    name: 'MyLayout',
+    setup() {
+        const leftDrawerOpen = ref(true);
+        const search = ref('');
+        function toggleLeftDrawer() {
+            leftDrawerOpen.value = !leftDrawerOpen.value;
+        }
+        return {
+            fabYoutube,
+            leftDrawerOpen,
+            search,
+            toggleLeftDrawer,
+            links1: [
+                { icon: 'clock', text: 'Categoria' },
+                { icon: 'clock', text: 'Categoria' },
+                { icon: 'clock', text: 'Categoria' }
+            ],
+        };
+    },
+    components: { QList }
 }
 </script>
 
