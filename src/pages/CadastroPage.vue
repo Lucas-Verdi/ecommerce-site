@@ -21,10 +21,10 @@
                 <q-input class="col-4" filled v-model="email" label="Email*" lazy-rules :rules="[
                     val => val !== null && val !== '' || 'Por favor, digite seu Email'
                 ]" />
-                <q-input type="password" class="col-4" filled v-model="senha" label="Senha*" lazy-rules :rules="[
-                    val => val !== null && val !== '' || 'Por favor, digite sua senha'
+                <q-input type="password" class="col-4" filled v-model="password" label="Senha*" lazy-rules :rules="[
+                    val => val !== null && val !== '' || 'Por favor, digite sua password'
                 ]" />
-                <q-input type="password" class="col-4" filled v-model="confsenha" label="Confirmar senha*" lazy-rules
+                <q-input type="password" class="col-4" filled v-model="confpassword" label="Confirmar password*" lazy-rules
                     :rules="[
                         val => val !== null && val !== '' || 'Por favor, confirme sua'
                     ]" />
@@ -58,22 +58,13 @@ export default {
             cpf: '',
             celular: '',
             email: '',
-            senha: '',
-            confsenha: '',
+            password: '',
+            confpassword: '',
             nome: '',
             accept: '',
         }
     },
     methods: {
-        onSubmit() {
-            $q.notify({
-                color: 'green-4',
-                textColor: 'white',
-                icon: 'cloud_done',
-                message: 'Cadastro realizado'
-            })
-        },
-
         enviarDados() {
             const dados = {
                 nome: this.nome,
@@ -82,12 +73,37 @@ export default {
                 cpf: this.cpf,
                 celular: this.celular,
                 email: this.email,
-                senha: this.senha,
-                confsenha: this.confsenha,
+                password: this.password,
+                confpassword: this.confpassword,
+                $q: this.$q
             }
 
-            axios.post('http://localhost:3000/teste', dados)
-            this.onSubmit
+            axios.post('http://localhost:3000/cadastro', dados)
+
+            this.$q.notify({
+                color: 'green-4',
+                textColor: 'white',
+                icon: 'cloud_done',
+                message: 'Cadastro realizado'
+            })
+
+            this.resetDados()
+            this.redirectLogin()
+        },
+
+        resetDados() {
+            this.nome = null
+            this.sobrenome = null
+            this.dtnascimento = null
+            this.cpf = null
+            this.celular = null
+            this.email = null
+            this.password = null
+            this.confpassword = null
+        },
+
+        redirectLogin() {
+            this.$router.push('/login')
         }
     }
 }
