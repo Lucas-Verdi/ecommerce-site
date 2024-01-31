@@ -52,8 +52,11 @@ export default {
             }
             axios.post('http://localhost:3000/login', dados)
                 .then((Response) => {
+                    const token = Response.data.token
+                    localStorage.setItem('x-access-token', token)
+
                     if (Response.data.success) {
-                        this.$router.push('/')
+                        this.$router.push('/index')
 
                         this.$q.notify({
                             color: 'green-4',
