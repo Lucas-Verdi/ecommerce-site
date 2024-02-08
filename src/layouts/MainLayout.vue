@@ -28,6 +28,13 @@
         <div class="q-gutter-sm row items-center no-wrap q-mr-xl">
           <q-btn dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm" class="q-mr-xl">
             Carrinho
+            <q-menu>
+              <q-list>
+                <q-item clickable>
+                  <q-item-section>Faça login para visualizar o carrinho.</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
           </q-btn>
           <q-btn dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
             Login/Cadastro

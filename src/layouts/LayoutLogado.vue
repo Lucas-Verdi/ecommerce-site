@@ -33,13 +33,8 @@
             LOGADO
             <q-menu>
               <q-list>
-                <q-item clickable>
-                  <q-item-section><router-link class="router" to="/login">Fazer login</router-link></q-item-section>
-                </q-item>
-                <q-separator></q-separator>
-                <q-item clickable v-close-popup>
-                  <q-item-section><router-link class="router" to="/cadastro">Realizar
-                      cadastro</router-link></q-item-section>
+                <q-item clickable @click="logout()">
+                  <q-item-section>Logout</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -92,18 +87,32 @@ export default {
     const leftDrawerOpen = ref(true);
     const search = ref('');
     const $router = useRouter()
+    const $q = useQuasar()
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
 
-    onMounted(async(res) => {
+    function logout() {
+      localStorage.removeItem('x-access-token')
+      $router.push('/')
+
+      $q.notify({
+        color: 'blue-4',
+        textColor: 'white',
+        icon: 'cloud_done',
+        message: 'Logout realizado'
+      })
+    }
+
+    onMounted(async (res) => {
       res = await auth()
-      if(!res){
+      if (!res) {
         $router.push('/')
       }
     })
-    
+
     return {
+      logout,
       fabYoutube,
       leftDrawerOpen,
       search,
