@@ -79,11 +79,12 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { fabYoutube } from '@quasar/extras/fontawesome-v6'
 import { QList } from 'quasar'
-import { isAuth, isValid } from 'app/auth'
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import { auth } from 'app/auth'
 
 export default {
   name: 'MyLayout',
@@ -95,15 +96,19 @@ export default {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
 
-    onMounted(() => {
-      console.log(isValid());
-      if (isValid()) {
+    onMounted(async (res) => {
+      res = await auth()
+      if (res){
+        console.log(res);
         $router.push('/index')
+      }
+      else{
+        console.log(res);
+        $router.push('/')
       }
     })
 
     return {
-      onMounted,
       fabYoutube,
       leftDrawerOpen,
       search,
