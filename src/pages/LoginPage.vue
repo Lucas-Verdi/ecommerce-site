@@ -32,6 +32,7 @@ import { data } from 'autoprefixer'
 import axios from 'axios'
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
+import { cryptoLogin } from 'stores/crypto'
 
 
 
@@ -45,12 +46,12 @@ export default {
     },
 
     methods: {
-        loginSend() {
+        async loginSend() {
             const dados = {
                 email: this.email,
                 password: this.password
             }
-            axios.post('http://localhost:3000/login', dados)
+            await axios.post('http://localhost:3000/login', cryptoLogin().encryptData(dados))
                 .then((Response) => {
                     const token = Response.data.token
                     localStorage.setItem('x-access-token', token)
