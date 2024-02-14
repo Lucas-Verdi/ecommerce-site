@@ -47,11 +47,15 @@ export default {
 
     methods: {
         async loginSend() {
-            const dados = {
+            const dados = [{
                 email: this.email,
                 password: this.password
-            }
-            await axios.post('http://localhost:3000/login', cryptoLogin().encryptData(dados))
+            }]
+            await axios.post('http://localhost:3000/login', null, {
+                headers: {
+                    'credentials': cryptoLogin().encryptData(dados)
+                }
+            })
                 .then((Response) => {
                     const token = Response.data.token
                     localStorage.setItem('x-access-token', token)
