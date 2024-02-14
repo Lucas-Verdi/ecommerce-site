@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-grey-1">
+  <mobileLayout v-if="$q.screen.lt.md"></mobileLayout>
+  <q-layout view="hHh lpR fff" class="bg-grey-1" v-if="$q.screen.gt.md">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <div class="row text-center">
         <span class="col"><q-icon name="ion-pin" class="q-mr-sm"></q-icon>Frete grátis para todo o estado de SP</span>
@@ -26,7 +27,8 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap q-mr-xl">
-          <q-btn dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm" class="q-mr-xl">
+          <q-btn dense flat color="grey-8" v-if="$q.screen.gt.sm" class="q-mr-xl">
+            <q-icon name="ion-cart"></q-icon>
             Carrinho
             <q-menu>
               <q-list>
@@ -92,6 +94,7 @@ import { QList } from 'quasar'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { auth } from 'app/auth'
+import mobileLayout from 'components/mobileLayout.vue'
 
 export default {
   name: 'MyLayout',
@@ -125,7 +128,7 @@ export default {
       ],
     };
   },
-  components: { QList }
+  components: { QList, mobileLayout }
 }
 </script>
 
