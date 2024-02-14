@@ -47,6 +47,7 @@
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import axios from 'axios'
+import { cryptoCadastro } from 'src/stores/crypto'
 
 export default {
     data() {
@@ -66,7 +67,7 @@ export default {
     },
     methods: {
         enviarDados() {
-            const dados = {
+            const dados = [{
                 nome: this.nome,
                 sobrenome: this.sobrenome,
                 dtnascimento: this.dtnascimento,
@@ -76,9 +77,13 @@ export default {
                 password: this.password,
                 confpassword: this.confpassword,
                 $q: this.$q
-            }
+            }]
 
-            axios.post('http://localhost:3000/cadastro', dados)
+            axios.post('http://localhost:3000/cadastro', null, {
+                headers: {
+                    'credentials': cryptoCadastro().encryptData(dados)
+                }
+            })
 
             this.$q.notify({
                 color: 'green-4',
