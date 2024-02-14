@@ -23,7 +23,8 @@
     <div class="col-12">Confira as promoções !</div>
   </div>
 
-  <div class="q-pa-md">
+  <mobileCard v-if="$q.screen.lt.md"></mobileCard>
+  <div class="q-pa-md" v-if="$q.screen.gt.md">
     <q-carousel class="bg-grey-1" animated swipeable transition-prev="jump-right" transition-next="jump-left"
       v-model="slide2" arrows infinite control-color="black" height="300px">
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
@@ -74,6 +75,7 @@
 <script>
 import { defineComponent } from 'vue'
 import { ref } from 'vue';
+import mobileCard from 'src/components/mobileCard.vue';
 
 export default {
   setup() {
@@ -106,7 +108,8 @@ export default {
 
       ]
     }
-  }
+  },
+  components: { mobileCard }
 }
 
 </script>
