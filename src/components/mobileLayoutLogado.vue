@@ -5,7 +5,6 @@
         <div class="row text-center">
           <span class="col"><q-icon name="ion-pin" class="q-mr-sm"></q-icon>Frete grátis para todo o estado de SP</span>
         </div>
-
         <div class="row items-center text-center">
           <div class="col-3">
             Logomarca
@@ -14,15 +13,7 @@
             <q-input dense v-model="search" placeholder="Pesquisar produtos" class="bg-white col" />
           </div>
           <div class="col-2">
-            <q-btn flat><q-icon name="ion-cart"></q-icon>
-              <q-menu>
-              <q-list>
-                <q-item clickable>
-                  <router-link class="router" to="/login"><q-item-section>Faça login para visualizar o carrinho.</q-item-section></router-link>
-                </q-item>
-              </q-list>
-            </q-menu>
-            </q-btn>
+            <q-btn flat><q-icon name="ion-cart"></q-icon></q-btn>
           </div>
         </div>
       </q-header>
@@ -38,8 +29,8 @@
       <q-page-container>
           <q-page-sticky position="bottom-left" :offset="[18, 18]" style="z-index: 3;">
             <q-fab color="purple" icon="keyboard_arrow_up" direction="up" vertical-actions-align="left">
-              <router-link class="router" to="/cadastro"><q-fab-action color="primary" @click="onClick" icon="book" label="Cadastrar-se" /></router-link>
-              <router-link class="router" to="/login"><q-fab-action color="secondary" @click="onClick" icon="login" label="Login"/></router-link>
+              <q-fab-action color="primary" @click="onClick" icon="book" label="LOGADO" />
+              <q-fab-action color="primary" @click="logout()" icon="book" label="SAIR" />
             </q-fab>
           </q-page-sticky>
         <router-view />
@@ -52,20 +43,35 @@
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { auth } from 'app/auth'
+import { useQuasar } from 'quasar'
+
 export default {
-  name: 'mobileLayout',
+  name: 'mobileLayoutLogado',
   setup() {
+    const $q = useQuasar()
+
+    function logout() {
+      localStorage.removeItem('x-access-token')
+      $router.push('/')
+
+      $q.notify({
+        color: 'blue-4',
+        textColor: 'white',
+        icon: 'cloud_done',
+        message: 'Logout realizado'
+      })
+    }
+
     const $router = useRouter()
     onMounted(async (res) => {
       res = await auth()
-      if (res){
-        $router.push('/index')
-      }
-      else{
+      if (!res) {
         $router.push('/')
       }
     })
-    return {}
+    return {
+      logout,
+    }
   }
 }
 </script>

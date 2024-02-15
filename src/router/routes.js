@@ -23,7 +23,8 @@ const routes = [
     path: '/userIn',
     component: () => import('layouts/LayoutLogado.vue'),
     children: [
-      { path: '/index', name: 'index', component: () => import('pages/IndexPage.vue') }
+      { path: '/index', name: 'index', component: () => import('pages/IndexPage.vue') },
+      { path: '/carrinho', name: 'CarrinhoPage', component: () => import('pages/CarrinhoPage.vue') }
       
     ]
   },

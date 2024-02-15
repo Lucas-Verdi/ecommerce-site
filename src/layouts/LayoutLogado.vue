@@ -1,5 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-grey-1">
+  <mobileLayoutLogado v-if="$q.screen.lt.md"></mobileLayoutLogado>
+  <q-layout view="hHh lpR fff" class="bg-grey-1" v-if="$q.screen.gt.md">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <div class="row text-center">
         <span class="col"><q-icon name="ion-pin" class="q-mr-sm"></q-icon>Frete grátis para todo o estado de SP</span>
@@ -11,9 +12,10 @@
 
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-toolbar-title shrink class="text-weight-bold">
-            Logomarca aqui
-          </q-toolbar-title>
+          <router-link class="router" to="/index"><q-toolbar-title shrink class="text-weight-bold">
+              Logomarca aqui
+            </q-toolbar-title></router-link>
+
         </q-btn>
 
         <q-space />
@@ -26,9 +28,10 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap q-mr-xl">
-          <q-btn dense flat color="grey-8" icon="work" v-if="$q.screen.gt.sm" class="q-mr-xl">
-            Carrinho
-          </q-btn>
+          <router-link class="router" to="/carrinho"><q-btn dense flat color="grey-8" icon="ion-cart"
+              v-if="$q.screen.gt.sm" class="q-mr-xl">
+              Carrinho
+            </q-btn></router-link>
           <q-btn dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
             LOGADO
             <q-menu>
@@ -80,6 +83,7 @@ import { QList, useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { auth } from 'app/auth'
+import mobileLayoutLogado from 'components/mobileLayoutLogado.vue'
 
 export default {
   name: 'MyLayout',
@@ -124,7 +128,7 @@ export default {
       ],
     };
   },
-  components: { QList }
+  components: { QList, mobileLayoutLogado }
 }
 </script>
 

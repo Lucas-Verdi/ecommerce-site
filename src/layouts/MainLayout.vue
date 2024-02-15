@@ -33,7 +33,7 @@
             <q-menu>
               <q-list>
                 <q-item clickable>
-                  <q-item-section>Faça login para visualizar o carrinho.</q-item-section>
+                  <router-link class="router" to="/login">Faça login para visualizar o carrinho</router-link>
                 </q-item>
               </q-list>
             </q-menu>
