@@ -61,21 +61,24 @@
   <div class="row text-center text-h5 text-weight-bold q-ma-md">
     <div class="col-12">Mais vendidos</div>
   </div>
-  <div class="row text-center q-pt-md q-mb-xl">
-          <div v-for="p in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
-            <q-card filled bordered class="my-card">
-              <img src="https://cdn.quasar.dev/img/parallax2.jpg">
-              <q-card-section>{{ p.produto }}</q-card-section>
-              <q-card-section>{{ p.preco }}</q-card-section>
-            </q-card>
-          </div>
-        </div>
+
+  <mobileMaisVendido v-if="$q.screen.lt.md"></mobileMaisVendido>
+  <div v-if="$q.screen.gt.md" class="row text-center q-pt-md q-mb-xl">
+    <div v-for="p in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
+      <q-card filled bordered class="my-card">
+        <img src="https://cdn.quasar.dev/img/parallax2.jpg">
+        <q-card-section>{{ p.produto }}</q-card-section>
+        <q-card-section>{{ p.preco }}</q-card-section>
+      </q-card>
+    </div>
+  </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { ref } from 'vue';
 import mobileCard from 'src/components/mobileCard.vue';
+import mobileMaisVendido from 'src/components/mobileMaisVendido.vue';
 
 export default {
   setup() {
@@ -101,15 +104,15 @@ export default {
       ],
 
       maisvendidos: [
-        {produto: 'Mais vendido 1', preco: '1'},
-        {produto: 'Mais vendido 2', preco: '2'},
-        {produto: 'Mais vendido 3', preco: '3'},
-        {produto: 'Mais vendido 4', preco: '4'},
+        { produto: 'Mais vendido 1', preco: '1' },
+        { produto: 'Mais vendido 2', preco: '2' },
+        { produto: 'Mais vendido 3', preco: '3' },
+        { produto: 'Mais vendido 4', preco: '4' },
 
       ]
     }
   },
-  components: { mobileCard }
+  components: { mobileCard, mobileMaisVendido }
 }
 
 </script>
