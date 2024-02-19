@@ -79,37 +79,68 @@ import { defineComponent } from 'vue'
 import { ref } from 'vue';
 import mobileCard from 'src/components/mobileCard.vue';
 import mobileMaisVendido from 'src/components/mobileMaisVendido.vue';
+import axios from 'axios';
+import { onMounted } from 'vue';
 
 export default {
   setup() {
+    const promocoes = ref([])
+    const promocoes2 = ref([])
+    const maisvendidos = ref([])
+    async function buscaProdutos() {
+      const token = localStorage.getItem('x-access-token')
+      const promocoes = await axios.post('http://localhost:3000/produtos', null, {
+        headers: {
+          'x-access-token': token
+        }
+      })
+      return promocoes
+    }
+
+    async function buscaMaisVendidos() {
+      const token = localStorage.getItem('x-access-token')
+      const maisvendidos = await axios.post('http://localhost:3000/maisvendidos', null, {
+        headers: {
+          'x-access-token': token
+        }
+      })
+      return maisvendidos
+    }
+
+    onMounted(async () => {
+      const res = await buscaProdutos()
+      const res2 = await buscaMaisVendidos()
+      promocoes.value = [
+        { produto: res.data[0].nomeproduto, preco: res.data[0].valorproduto },
+        { produto: res.data[1].nomeproduto, preco: res.data[1].valorproduto },
+        { produto: res.data[2].nomeproduto, preco: res.data[2].valorproduto },
+        { produto: res.data[3].nomeproduto, preco: res.data[3].valorproduto }
+      ]
+
+      promocoes2.value = [
+        { produto: res.data[4].nomeproduto, preco: res.data[4].valorproduto },
+        { produto: res.data[5].nomeproduto, preco: res.data[5].valorproduto },
+        { produto: res.data[6].nomeproduto, preco: res.data[6].valorproduto },
+        { produto: res.data[7].nomeproduto, preco: res.data[7].valorproduto }
+      ]
+
+      maisvendidos.value = [
+        { produto: res2.data[0].maisvendidonome, preco: res2.data[0].maisvendidovalor },
+        { produto: res2.data[1].maisvendidonome, preco: res2.data[1].maisvendidovalor },
+        { produto: res2.data[2].maisvendidonome, preco: res2.data[2].maisvendidovalor },
+        { produto: res2.data[3].maisvendidonome, preco: res2.data[3].maisvendidovalor },
+      ]
+    })
+
     return {
+      promocoes,
+      promocoes2,
+      maisvendidos,
       slide: ref('style'),
       slide2: ref(1),
       count: ref(4),
       autoplay: ref(true),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.',
-
-      promocoes: [
-        { produto: 'Produto teste', preco: '1' },
-        { produto: 'Produto teste 2', preco: '2' },
-        { produto: 'Produto teste 3', preco: '3' },
-        { produto: 'Produto teste 4', preco: '4' }
-      ],
-
-      promocoes2: [
-        { produto: 'Produto teste 5', preco: '5' },
-        { produto: 'Produto teste 6', preco: '6' },
-        { produto: 'Produto teste 7', preco: '7' },
-        { produto: 'Produto teste 8', preco: '8' }
-      ],
-
-      maisvendidos: [
-        { produto: 'Mais vendido 1', preco: '1' },
-        { produto: 'Mais vendido 2', preco: '2' },
-        { produto: 'Mais vendido 3', preco: '3' },
-        { produto: 'Mais vendido 4', preco: '4' },
-
-      ]
     }
   },
   components: { mobileCard, mobileMaisVendido }
