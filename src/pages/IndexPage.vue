@@ -33,7 +33,12 @@
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg">
               <q-card-section>{{ p.produto }}</q-card-section>
-              <q-card-section>{{ p.preco }}</q-card-section>
+              <q-card-section>{{ p.preco }}
+                <div class="absolute-top-right q-ma-xs q-pr-sm">
+                  <q-tooltip>Adicionar ao carrinho</q-tooltip>
+                  <q-btn round color="green" icon="ion-cart" />
+                </div>
+              </q-card-section>
             </q-card>
           </div>
         </div>
@@ -111,24 +116,24 @@ export default {
       const res = await buscaProdutos()
       const res2 = await buscaMaisVendidos()
       promocoes.value = [
-        { produto: res.data[0].nomeproduto, preco: res.data[0].valorproduto },
-        { produto: res.data[1].nomeproduto, preco: res.data[1].valorproduto },
-        { produto: res.data[2].nomeproduto, preco: res.data[2].valorproduto },
-        { produto: res.data[3].nomeproduto, preco: res.data[3].valorproduto }
+        { produto: res.data[0].nomeproduto, preco: 'R$ ' + res.data[0].valorproduto },
+        { produto: res.data[1].nomeproduto, preco: 'R$ ' + res.data[1].valorproduto },
+        { produto: res.data[2].nomeproduto, preco: 'R$ ' + res.data[2].valorproduto },
+        { produto: res.data[3].nomeproduto, preco: 'R$ ' + res.data[3].valorproduto }
       ]
 
       promocoes2.value = [
-        { produto: res.data[4].nomeproduto, preco: res.data[4].valorproduto },
-        { produto: res.data[5].nomeproduto, preco: res.data[5].valorproduto },
-        { produto: res.data[6].nomeproduto, preco: res.data[6].valorproduto },
-        { produto: res.data[7].nomeproduto, preco: res.data[7].valorproduto }
+        { produto: res.data[4].nomeproduto, preco: 'R$ ' + res.data[4].valorproduto },
+        { produto: res.data[5].nomeproduto, preco: 'R$ ' + res.data[5].valorproduto },
+        { produto: res.data[6].nomeproduto, preco: 'R$ ' + res.data[6].valorproduto },
+        { produto: res.data[7].nomeproduto, preco: 'R$ ' + res.data[7].valorproduto }
       ]
 
       maisvendidos.value = [
-        { produto: res2.data[0].maisvendidonome, preco: res2.data[0].maisvendidovalor },
-        { produto: res2.data[1].maisvendidonome, preco: res2.data[1].maisvendidovalor },
-        { produto: res2.data[2].maisvendidonome, preco: res2.data[2].maisvendidovalor },
-        { produto: res2.data[3].maisvendidonome, preco: res2.data[3].maisvendidovalor },
+        { produto: res2.data[0].maisvendidonome, preco: 'R$ ' + res2.data[0].maisvendidovalor },
+        { produto: res2.data[1].maisvendidonome, preco: 'R$ ' + res2.data[1].maisvendidovalor },
+        { produto: res2.data[2].maisvendidonome, preco: 'R$ ' + res2.data[2].maisvendidovalor },
+        { produto: res2.data[3].maisvendidonome, preco: 'R$ ' + res2.data[3].maisvendidovalor },
       ]
     })
 
