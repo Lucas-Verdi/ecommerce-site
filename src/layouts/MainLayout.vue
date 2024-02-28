@@ -1,6 +1,6 @@
 <template>
   <mobileLayout v-if="$q.screen.lt.md"></mobileLayout>
-  <q-layout view="hHh lpR fff" class="bg-grey-1" v-if="$q.screen.gt.md">
+  <q-layout view="hHh lpR fff" class="bg-grey-1" v-if="$q.screen.gt.sm">
     <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <div class="row text-center">
         <span class="col"><q-icon name="ion-pin" class="q-mr-sm"></q-icon>Frete grátis para todo o estado de SP</span>
