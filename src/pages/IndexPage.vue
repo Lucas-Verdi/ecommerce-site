@@ -1,23 +1,9 @@
 <template>
   <div class="q-pa-md">
-    <q-carousel
-      v-model="slide"
-      transition-prev="jump-right"
-      transition-next="jump-left"
-      swipeable
-      animated
-      :autoplay="autoplay"
-      control-color="white"
-      prev-icon="arrow_left"
-      next-icon="arrow_right"
-      navigation-icon="radio_button_unchecked"
-      navigation
-      padding
-      arrows
-      infinite
-      height="300px"
-      class="bg-purple text-white shadow-1 rounded-borders"
-    >
+    <q-carousel v-model="slide" transition-prev="jump-right" transition-next="jump-left" swipeable animated
+      :autoplay="autoplay" control-color="white" prev-icon="arrow_left" next-icon="arrow_right"
+      navigation-icon="radio_button_unchecked" navigation padding arrows infinite height="300px"
+      class="bg-purple text-white shadow-1 rounded-borders">
       <q-carousel-slide name="style" class="column no-wrap flex-center">
         <q-icon name="style" size="56px" />
         <div class="q-mt-md text-center">
@@ -39,34 +25,18 @@
 
   <mobileCard v-if="$q.screen.lt.md"></mobileCard>
   <div class="q-pa-md" v-if="$q.screen.gt.sm">
-    <q-carousel
-      class="bg-grey-1"
-      animated
-      swipeable
-      transition-prev="jump-right"
-      transition-next="jump-left"
-      v-model="slide2"
-      arrows
-      infinite
-      control-color="black"
-      height="300px"
-    >
+    <q-carousel class="bg-grey-1" animated swipeable transition-prev="jump-right" transition-next="jump-left"
+      v-model="slide2" arrows infinite control-color="black" height="300px">
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
         <div class="row text-center">
           <div v-for="p in promocoes" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
               <q-card-section>{{ p.produto }}</q-card-section>
-              <q-card-section
-                >{{ p.preco }}
+              <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
                   <q-tooltip>Adicionar ao carrinho</q-tooltip>
-                  <q-btn
-                    @click="Adicionar()"
-                    round
-                    color="green"
-                    icon="ion-cart"
-                  />
+                  <q-btn @click="Adicionar(p)" round color="green" icon="ion-cart" />
                 </div>
               </q-card-section>
             </q-card>
@@ -151,9 +121,12 @@ export default {
       return maisvendidos;
     }
 
-    function Adicionar() {
-      const res = addtocart().addtocart();
-      return res;
+    async function Adicionar(p) {
+      const res = await buscaProdutos()
+      const nomeproduto = res.data[0].nomeproduto
+      const valorproduto = res.data[0].valorproduto
+      const resposta = addtocart().addtocart(nomeproduto, valorproduto)
+      return resposta;
     }
 
     onMounted(async () => {
