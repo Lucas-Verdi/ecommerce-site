@@ -29,14 +29,14 @@
       v-model="slide2" arrows infinite control-color="black" height="300px">
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
         <div class="row text-center">
-          <div v-for="p in promocoes" :key="p.produto" class="col-3 q-pl-xl">
+          <div v-for="(p, index) in promocoes" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
               <q-card-section>{{ p.produto }}</q-card-section>
               <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
                   <q-tooltip>Adicionar ao carrinho</q-tooltip>
-                  <q-btn @click="Adicionar(p)" round color="green" icon="ion-cart" />
+                  <q-btn @click="Adicionar(index)" round color="green" icon="ion-cart" />
                 </div>
               </q-card-section>
             </q-card>
@@ -46,11 +46,16 @@
 
       <q-carousel-slide :name="2" class="column no-wrap flex-center">
         <div class="row text-center">
-          <div v-for="p in promocoes2" :key="p.produto" class="col-3 q-pl-xl">
+          <div v-for="(p, index) in promocoes2" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
               <q-card-section>{{ p.produto }}</q-card-section>
-              <q-card-section>{{ p.preco }}</q-card-section>
+              <q-card-section>{{ p.preco }}
+                <div class="absolute-top-right q-ma-xs q-pr-sm">
+                  <q-tooltip>Adicionar ao carrinho</q-tooltip>
+                  <q-btn @click="Adicionar(index + 4)" round color="green" icon="ion-cart" />
+                </div>
+              </q-card-section>
             </q-card>
           </div>
         </div>
@@ -123,8 +128,8 @@ export default {
 
     async function Adicionar(p) {
       const res = await buscaProdutos()
-      const nomeproduto = res.data[0].nomeproduto
-      const valorproduto = res.data[0].valorproduto
+      const nomeproduto = res.data[p].nomeproduto
+      const valorproduto = res.data[p].valorproduto
       const resposta = addtocart().addtocart(nomeproduto, valorproduto)
       return resposta;
     }
