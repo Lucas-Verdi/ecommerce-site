@@ -31,6 +31,7 @@
           <router-link class="router" to="/carrinho"><q-btn dense flat color="grey-8" icon="ion-cart"
               v-if="$q.screen.gt.sm" class="q-mr-xl">
               Carrinho
+              <q-badge v-model="counter" v-if="counter.length > 0" class="q-ml-sm" rounded color="red"></q-badge>
             </q-btn></router-link>
           <q-btn dense flat color="grey-8" icon="person" v-if="$q.screen.gt.sm">
             LOGADO
@@ -77,23 +78,42 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { fabYoutube } from '@quasar/extras/fontawesome-v6'
 import { QList, useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { auth } from 'app/auth'
 import mobileLayoutLogado from 'components/mobileLayoutLogado.vue'
+import axios from 'axios'
 
 export default {
   name: 'MyLayout',
   setup() {
+    const counter = ref([])
     const leftDrawerOpen = ref(true);
     const search = ref('');
     const $router = useRouter()
     const $q = useQuasar()
+
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
+    }
+
+    async function fetchCartData() {
+      const token = localStorage.getItem('x-access-token')
+      const carrinho = await axios.post('http://localhost:3000/cartverify', null, {
+        headers: {
+          'x-access-token': token,
+        }
+      })
+
+      const response = await axios.post('http://localhost:3000/cartshow', carrinho.data, {
+        headers: {
+          'x-access-token': token
+        }
+      })
+      counter.value = response.data
     }
 
     function logout() {
@@ -113,9 +133,14 @@ export default {
       if (!res) {
         $router.push('/')
       }
+      else {
+        fetchCartData()
+      }
     })
 
+
     return {
+      counter,
       logout,
       fabYoutube,
       leftDrawerOpen,

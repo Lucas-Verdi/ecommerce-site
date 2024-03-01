@@ -74,11 +74,16 @@
 
   <mobileMaisVendido v-if="$q.screen.lt.md"></mobileMaisVendido>
   <div v-if="$q.screen.gt.sm" class="row text-center q-pt-md q-mb-xl">
-    <div v-for="p in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
+    <div v-for="(p, index) in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
       <q-card filled bordered class="my-card">
         <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
         <q-card-section>{{ p.produto }}</q-card-section>
-        <q-card-section>{{ p.preco }}</q-card-section>
+        <q-card-section>{{ p.preco }}
+          <div class="absolute-top-right q-ma-xs q-pr-sm">
+            <q-tooltip>Adicionar ao carrinho</q-tooltip>
+            <q-btn @click="Adicionar(index)" round color="green" icon="ion-cart" />
+          </div>
+        </q-card-section>
       </q-card>
     </div>
   </div>
@@ -112,20 +117,6 @@ export default {
       return promocoes;
     }
 
-    async function buscaMaisVendidos() {
-      const token = localStorage.getItem("x-access-token");
-      const maisvendidos = await axios.post(
-        "http://localhost:3000/maisvendidos",
-        null,
-        {
-          headers: {
-            "x-access-token": token,
-          },
-        }
-      );
-      return maisvendidos;
-    }
-
     async function Adicionar(p) {
       const res = await buscaProdutos()
       const nomeproduto = res.data[p].nomeproduto
@@ -136,7 +127,6 @@ export default {
 
     onMounted(async () => {
       const res = await buscaProdutos();
-      const res2 = await buscaMaisVendidos();
       promocoes.value = [
         {
           produto: res.data[0].nomeproduto,
@@ -177,20 +167,20 @@ export default {
 
       maisvendidos.value = [
         {
-          produto: res2.data[0].maisvendidonome,
-          preco: "R$ " + res2.data[0].maisvendidovalor,
+          produto: res.data[0].nomeproduto,
+          preco: "R$ " + res.data[0].valorproduto,
         },
         {
-          produto: res2.data[1].maisvendidonome,
-          preco: "R$ " + res2.data[1].maisvendidovalor,
+          produto: res.data[1].nomeproduto,
+          preco: "R$ " + res.data[1].valorproduto,
         },
         {
-          produto: res2.data[2].maisvendidonome,
-          preco: "R$ " + res2.data[2].maisvendidovalor,
+          produto: res.data[2].nomeproduto,
+          preco: "R$ " + res.data[2].valorproduto,
         },
         {
-          produto: res2.data[3].maisvendidonome,
-          preco: "R$ " + res2.data[3].maisvendidovalor,
+          produto: res.data[3].nomeproduto,
+          preco: "R$ " + res.data[3].valorproduto,
         },
       ];
     });
