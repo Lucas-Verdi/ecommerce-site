@@ -108,10 +108,10 @@ export default {
 
     onMounted(async (res) => {
       res = await auth()
-      if (res){
+      if (res) {
         $router.push('/index')
       }
-      else{
+      else {
         $router.push('/')
       }
     })
