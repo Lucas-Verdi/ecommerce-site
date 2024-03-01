@@ -1,68 +1,66 @@
 <template>
   <q-page padding>
     <div class="q-pa-md">
-    <q-markup-table dark class="bg-indigo-8">
-      <thead>
-        <tr>
-          <th class="text-left">Produto</th>
-          <th class="text-right">Quantidade</th>
-          <th class="text-right">Valor unitário</th>
-          <th class="text-right">Valor total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-left">Frozen Yogurt</td>
-          <td class="text-right">159</td>
-          <td class="text-right">6</td>
-          <td class="text-right">24</td>
-        </tr>
-        <tr>
-          <td class="text-left">Ice cream sandwich</td>
-          <td class="text-right">237</td>
-          <td class="text-right">9</td>
-          <td class="text-right">37</td>
-        </tr>
-        <tr>
-          <td class="text-left">Eclair</td>
-          <td class="text-right">262</td>
-          <td class="text-right">16</td>
-          <td class="text-right">23</td>
-        </tr>
-        <tr>
-          <td class="text-left">Cupcake</td>
-          <td class="text-right">305</td>
-          <td class="text-right">3.7</td>
-          <td class="text-right">67</td>
-        </tr>
-        <tr>
-          <td class="text-left">Gingerbread</td>
-          <td class="text-right">356</td>
-          <td class="text-right">16</td>
-          <td class="text-right">49</td>
-        </tr>
-      </tbody>
-    </q-markup-table>
-  </div>
+      <q-markup-table dark class="bg-indigo-8">
+        <thead>
+          <tr>
+            <th class="text-left">Produto</th>
+            <th class="text-center">Quantidade</th>
+            <th class="text-center">Valor unitário</th>
+            <th class="text-center">Valor total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="p in exibircarrinho" :key="p.id">
+            <td class="text-left">{{ p[0].nomeproduto }}</td>
+            <td class="text-center">159</td>
+            <td class="text-center">{{ "R$ " + p[0].valorproduto }}</td>
+            <td class="text-center">24</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </div>
   </q-page>
 </template>
 
 <script>
+import { ref } from 'vue'
 import { auth } from 'app/auth'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
+import axios from 'axios'
 export default {
   name: 'CarrinhoPage',
-  setup(){
+  setup() {
     const $router = useRouter()
+    const exibircarrinho = ref()
+
+    async function cart() {
+      const token = localStorage.getItem('x-access-token')
+      const carrinho = await axios.post('http://localhost:3000/cartverify', null, {
+        headers: {
+          'x-access-token': token,
+        }
+      })
+      const response = await axios.post('http://localhost:3000/cartshow', carrinho.data, {
+        headers: {
+          'x-access-token': token
+        }
+      })
+      exibircarrinho.value = response.data
+    }
+
     onMounted(async (res) => {
       res = await auth()
       if (!res) {
         $router.push('/index')
       }
+      else {
+        cart()
+      }
     })
-    return{
-
+    return {
+      exibircarrinho
     }
   }
 }
