@@ -11,11 +11,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="p in exibircarrinho" :key="p.id">
-            <td class="text-left">{{ p[0].nomeproduto }}</td>
-            <td class="text-center">159</td>
+          <tr v-for="(p, index) in exibircarrinho" :key="p.id">
+            <td class="text-left">{{ p[0].nomeproduto }}
+              <q-btn @click="removerItem(p[0].nomeproduto, p[0].valorproduto)" class="q-ml-md" label="Remover" dense
+                color="red" />
+            </td>
+            <td class="text-center">
+              <q-input color="white" filled dense v-model.number="qtd[index]" type="number"
+                style="width: 80px; margin-left: 183px;" />
+            </td>
             <td class="text-center">{{ "R$ " + p[0].valorproduto }}</td>
-            <td class="text-center">24</td>
+            <td class="text-center">{{ "R$ " + p[0].valorproduto * qtd[index] }}</td>
           </tr>
         </tbody>
       </q-markup-table>
@@ -29,9 +35,12 @@ import { auth } from 'app/auth'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import axios from 'axios'
+import { useQuasar } from 'quasar'
+
 export default {
   name: 'CarrinhoPage',
   setup() {
+    const $q = useQuasar()
     const $router = useRouter()
     const exibircarrinho = ref()
 
@@ -50,6 +59,26 @@ export default {
       exibircarrinho.value = response.data
     }
 
+    async function removerItem(nomeproduto, valorproduto) {
+      const token = localStorage.getItem('x-access-token')
+      await axios.post('http://localhost:3000/removeritemcarrinho', null, {
+        headers: {
+          'x-access-token': token,
+          'nomeproduto': nomeproduto,
+          'valorproduto': valorproduto
+        }
+      })
+      $q.notify({
+        color: "red",
+        textColor: "white",
+        icon: "ion-cart",
+        message: "Item removido",
+      });
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }
+
     onMounted(async (res) => {
       res = await auth()
       if (!res) {
@@ -60,6 +89,8 @@ export default {
       }
     })
     return {
+      removerItem,
+      qtd: ref([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]),
       exibircarrinho
     }
   }
