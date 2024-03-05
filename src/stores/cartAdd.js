@@ -8,6 +8,7 @@ export const addtocart = defineStore("addtocart", {
   }),
 
   actions: {
+
     async addtocart(nomeproduto, valorproduto) {
       const token = localStorage.getItem('x-access-token')
       if (!token) {
@@ -25,6 +26,7 @@ export const addtocart = defineStore("addtocart", {
             'valorproduto': valorproduto,
           },
         })
+
         await axios.post("http://localhost:3000/cartadd", null, {
           headers: {
             'x-access-token': token,
@@ -39,6 +41,7 @@ export const addtocart = defineStore("addtocart", {
               message: "Adicionado ao carrinho",
             });
           })
+
       }
     },
   },
