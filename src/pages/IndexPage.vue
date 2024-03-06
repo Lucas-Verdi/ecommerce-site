@@ -32,7 +32,10 @@
           <div v-for="(p, index) in promocoes" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
-              <q-card-section>{{ p.produto }}</q-card-section>
+              <router-link v-if="logado" @click="toPage(index)" to="/produto"><q-card-section>{{ p.produto
+                  }}</q-card-section></router-link>
+              <router-link v-if="!logado" @click="toPage(index)" to="/produtopmn"><q-card-section>{{ p.produto
+                  }}</q-card-section></router-link>
               <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
                   <q-tooltip>Adicionar ao carrinho</q-tooltip>
@@ -49,7 +52,10 @@
           <div v-for="(p, index) in promocoes2" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
               <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
-              <q-card-section>{{ p.produto }}</q-card-section>
+              <router-link v-if="logado" @click="toPage(index + 4)" to="/produto"><q-card-section>{{ p.produto
+                  }}</q-card-section></router-link>
+              <router-link v-if="!logado" @click="toPage(index + 4)" to="/produtopmn"><q-card-section>{{ p.produto
+                  }}</q-card-section></router-link>
               <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
                   <q-tooltip>Adicionar ao carrinho</q-tooltip>
@@ -77,7 +83,10 @@
     <div v-for="(p, index) in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
       <q-card filled bordered class="my-card">
         <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
-        <q-card-section>{{ p.produto }}</q-card-section>
+        <router-link v-if="logado" @click="toPage(index)" to="/produto"><q-card-section>{{ p.produto
+            }}</q-card-section></router-link>
+        <router-link v-if="!logado" @click="toPage(index)" to="/produtopmn"><q-card-section>{{ p.produto
+            }}</q-card-section></router-link>
         <q-card-section>{{ p.preco }}
           <div class="absolute-top-right q-ma-xs q-pr-sm">
             <q-tooltip>Adicionar ao carrinho</q-tooltip>
@@ -100,6 +109,7 @@ import { addtocart } from "src/stores/cartAdd";
 
 export default {
   setup() {
+    const logado = ref(true)
     const promocoes = ref([]);
     const promocoes2 = ref([]);
     const maisvendidos = ref([]);
@@ -125,7 +135,19 @@ export default {
       return resposta;
     }
 
+    async function toPage(p) {
+      const res = await buscaProdutos()
+      const nomeproduto = res.data[p].nomeproduto
+      const valorproduto = res.data[p].valorproduto
+      localStorage.setItem('nomeproduto', nomeproduto)
+      localStorage.setItem('valorproduto', valorproduto)
+    }
+
     onMounted(async () => {
+      const token = localStorage.getItem('x-access-token')
+      if (!token) {
+        logado.value = false
+      }
       const res = await buscaProdutos();
       promocoes.value = [
         {
@@ -186,6 +208,8 @@ export default {
     });
 
     return {
+      logado,
+      toPage,
       Adicionar,
       promocoes,
       promocoes2,
