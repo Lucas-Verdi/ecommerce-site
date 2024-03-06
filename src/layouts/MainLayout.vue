@@ -12,9 +12,9 @@
 
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-toolbar-title shrink class="text-weight-bold">
-            Logomarca aqui
-          </q-toolbar-title>
+          <router-link class="router" to="/index"><q-toolbar-title shrink class="text-weight-bold">
+              Logomarca aqui
+            </q-toolbar-title></router-link>
         </q-btn>
 
         <q-space />
