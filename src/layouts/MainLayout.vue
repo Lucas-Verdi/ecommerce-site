@@ -20,7 +20,16 @@
         <q-space />
 
         <div class="YL__toolbar-input-container row no-wrap">
-          <q-input dense outlined square v-model="search" placeholder="Search" class="bg-white col" />
+          <q-select class="bg-white col" dense outlined square filled v-model="search" use-input input-debounce="0"
+            label="Procurar produto" :options="promocoes" @filter="filterFn" style="width: 250px">
+            <template v-slot:no-option>
+              <q-list>
+                <q-item>
+                  <q-item-section></q-item-section>
+                </q-item>
+              </q-list>
+            </template>
+          </q-select>
           <q-btn class="YL__toolbar-input-btn" color="grey-3" text-color="grey-8" icon="search" unelevated />
         </div>
 
@@ -95,15 +104,33 @@ import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { auth } from 'app/auth'
 import mobileLayout from 'components/mobileLayout.vue'
+import axios from 'axios'
 
 export default {
   name: 'MyLayout',
   setup() {
+    const promocoes = ref([]);
     const leftDrawerOpen = ref(true);
     const search = ref('');
     const $router = useRouter()
+    const options = ref(promocoes)
+
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
+    }
+
+    async function buscaProdutos() {
+      const token = localStorage.getItem("x-access-token");
+      const promocoes = await axios.post(
+        "http://localhost:3000/produtos",
+        null,
+        {
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
+      return promocoes;
     }
 
     onMounted(async (res) => {
@@ -114,9 +141,29 @@ export default {
       else {
         $router.push('/')
       }
+
+      const resposta = await buscaProdutos();
+      promocoes.value = [resposta.data[0].nomeproduto, resposta.data[1].nomeproduto, resposta.data[2].nomeproduto, resposta.data[3].nomeproduto, resposta.data[4].nomeproduto, resposta.data[5].nomeproduto, resposta.data[6].nomeproduto, resposta.data[7].nomeproduto];
     })
 
     return {
+      options,
+
+      filterFn(val, update) {
+        if (val === '') {
+          update(() => {
+            options.value = promocoes.value
+          })
+          return
+        }
+        update(() => {
+          const needle = val.toLowerCase()
+          options.value = promocoes.value.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })
+      },
+
+
+      promocoes,
       fabYoutube,
       leftDrawerOpen,
       search,
@@ -140,10 +187,6 @@ export default {
     width: 55%
 
   &__toolbar-input-btn
-    border-radius: 0
-    border-style: solid
-    border-width: 1px 1px 1px 0
-    border-color: rgba(0,0,0,.24)
     max-width: 60px
     width: 100%
 
