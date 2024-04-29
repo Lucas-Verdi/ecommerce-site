@@ -20,17 +20,13 @@
         <q-space />
 
         <div class="YL__toolbar-input-container row no-wrap">
-          <q-select class="bg-white col" dense outlined square filled v-model="search" use-input input-debounce="0"
-            label="Procurar produto" :options="promocoes" @filter="filterFn" style="width: 250px">
-            <template v-slot:no-option>
-              <q-list>
-                <q-item>
-                  <q-item-section></q-item-section>
-                </q-item>
-              </q-list>
+          <q-input class="col" dense color="blue" filled v-model="text" label="Procurar produto" style="width: 250px;">
+            <template v-if="text" v-slot:append>
+              <q-icon name="cancel" @click.stop.prevent="text = null" class="cursor-pointer" />
             </template>
-          </q-select>
-          <q-btn class="YL__toolbar-input-btn" color="grey-3" text-color="grey-8" icon="search" unelevated />
+          </q-input>
+          <router-link to="/consulta"><q-btn @click="search()" class="YL__toolbar-input-btn" color="grey-3"
+              text-color="grey-8" icon="search" unelevated /></router-link>
         </div>
 
         <q-space />
@@ -76,7 +72,7 @@
             <q-item-section>
               <router-link @click="setCategoria(index)" class="router" to="/produtopcategoria"><q-item-label>{{
     link.text
-  }}</q-item-label></router-link>
+                  }}</q-item-label></router-link>
             </q-item-section>
           </q-item>
 
@@ -108,15 +104,15 @@ import { auth } from 'app/auth'
 import mobileLayout from 'components/mobileLayout.vue'
 import axios from 'axios'
 
+
 export default {
   name: 'MyLayout',
   setup() {
     const links1 = ref([])
     const promocoes = ref([]);
     const leftDrawerOpen = ref(true);
-    const search = ref('');
     const $router = useRouter()
-    const options = ref(promocoes)
+    const text = ref(null)
 
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -161,29 +157,19 @@ export default {
       promocoes.value = [resposta.data[0].nomeproduto, resposta.data[1].nomeproduto, resposta.data[2].nomeproduto, resposta.data[3].nomeproduto, resposta.data[4].nomeproduto, resposta.data[5].nomeproduto, resposta.data[6].nomeproduto, resposta.data[7].nomeproduto];
     })
 
+    function search() {
+      localStorage.setItem('search', text.value)
+    }
+
     return {
-      options,
+      search,
       links1,
-
-      filterFn(val, update) {
-        if (val === '') {
-          update(() => {
-            options.value = promocoes.value
-          })
-          return
-        }
-        update(() => {
-          const needle = val.toLowerCase()
-          options.value = promocoes.value.filter(v => v.toLowerCase().indexOf(needle) > -1)
-        })
-      },
-
       promocoes,
       fabYoutube,
       leftDrawerOpen,
-      search,
       toggleLeftDrawer,
       setCategoria,
+      text
     };
   },
   components: { QList, mobileLayout }
