@@ -21,17 +21,13 @@
         <q-space />
 
         <div class="YL__toolbar-input-container row no-wrap">
-          <q-select class="bg-white col" dense outlined square filled v-model="search" use-input input-debounce="0"
-            label="Procurar produto" :options="promocoes" @filter="filterFn" style="width: 250px">
-            <template v-slot:no-option>
-              <q-list>
-                <q-item>
-                  <q-item-section></q-item-section>
-                </q-item>
-              </q-list>
+          <q-input class="col" dense color="blue" filled v-model="text" label="Procurar produto" style="width: 250px;">
+            <template v-if="text" v-slot:append>
+              <q-icon name="cancel" @click.stop.prevent="text = null" class="cursor-pointer" />
             </template>
-          </q-select>
-          <q-btn class="YL__toolbar-input-btn" color="grey-3" text-color="grey-8" icon="search" unelevated />
+          </q-input>
+          <router-link to="/consultalg"><q-btn @click="search()" class="YL__toolbar-input-btn" color="grey-3"
+              text-color="grey-8" icon="search" unelevated /></router-link>
         </div>
 
         <q-space />
@@ -103,10 +99,14 @@ export default {
     const links1 = ref([])
     const promocoes = ref([])
     const leftDrawerOpen = ref(true);
-    const search = ref('');
     const $router = useRouter()
     const $q = useQuasar()
-    const options = ref(promocoes)
+    const text = ref(null)
+
+
+    function search() {
+      localStorage.setItem('search', text.value)
+    }
 
     async function setCategoria(i) {
       const idcategoria = await links1.value[i].idcategoria
@@ -162,29 +162,15 @@ export default {
 
 
     return {
-      options,
-
-      filterFn(val, update) {
-        if (val === '') {
-          update(() => {
-            options.value = promocoes.value
-          })
-          return
-        }
-        update(() => {
-          const needle = val.toLowerCase()
-          options.value = promocoes.value.filter(v => v.toLowerCase().indexOf(needle) > -1)
-        })
-      },
-
       setCategoria,
       links1,
       promocoes,
       logout,
       fabYoutube,
       leftDrawerOpen,
-      search,
       toggleLeftDrawer,
+      text,
+      search
     };
   },
   components: { QList, mobileLayoutLogado }
