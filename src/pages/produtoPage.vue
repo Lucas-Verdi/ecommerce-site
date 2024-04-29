@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-7 q-pa-md row items-start q-gutter-md">
       <q-card class="my-card" flat bordered>
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+        <q-img :src="produto.imgproduto" />
 
         <q-card-section>
           <div class="text-h5 q-mt-sm q-mb-xs">{{ produto.nomeproduto }}</div>
@@ -43,7 +43,7 @@
           <div class="text-h5 text-black">
             {{ "R$" + produto.valorproduto }}
           </div>
-          <div class="text-caption">Informações adicionais</div>
+          <div class="text-caption">{{ produto.descricao }}</div>
         </q-card-section>
         <q-card-actions>
           <q-btn @click="adicionar()" rounded color="green" label="Adicionar ao carrinho" />
@@ -92,7 +92,8 @@ export default {
         produto.value = {
           nomeproduto: res.data[0].nomeproduto,
           valorproduto: res.data[0].valorproduto,
-          descricao: res.data[0].descricao
+          descricao: res.data[0].descricao,
+          imgproduto: res.data[0].imgproduto
         }
       }
     })

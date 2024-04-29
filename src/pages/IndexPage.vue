@@ -26,12 +26,12 @@
   <mobileCard v-if="$q.screen.lt.md"></mobileCard>
   <div class="q-pa-md" v-if="$q.screen.gt.sm">
     <q-carousel class="bg-grey-1" animated swipeable transition-prev="jump-right" transition-next="jump-left"
-      v-model="slide2" arrows infinite control-color="black" height="300px">
+      v-model="slide2" arrows infinite control-color="black" height="400px">
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
         <div class="row text-center">
           <div v-for="(p, index) in promocoes" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
-              <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+              <img :src="p.img" />
               <q-btn flat dense @click="toPage(index)"><q-card-section>{{ p.produto }}</q-card-section></q-btn>
               <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
@@ -76,7 +76,7 @@
   <div v-if="$q.screen.gt.sm" class="row text-center q-pt-md q-mb-xl">
     <div v-for="(p, index) in maisvendidos" :key="p.produto" class="col-3 q-pl-xl">
       <q-card filled bordered class="my-card">
-        <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+        <img :src="p.img" />
         <q-btn flat dense @click="toPage(index)"><q-card-section>{{ p.produto }}</q-card-section></q-btn>
         <q-card-section>{{ p.preco }}
           <div class="absolute-top-right q-ma-xs q-pr-sm">
@@ -156,18 +156,22 @@ export default {
         {
           produto: res.data[0].nomeproduto,
           preco: "R$ " + res.data[0].valorproduto,
+          img: res.data[0].imgproduto
         },
         {
           produto: res.data[1].nomeproduto,
           preco: "R$ " + res.data[1].valorproduto,
+          img: res.data[1].imgproduto
         },
         {
           produto: res.data[2].nomeproduto,
           preco: "R$ " + res.data[2].valorproduto,
+          img: res.data[2].imgproduto
         },
         {
           produto: res.data[3].nomeproduto,
           preco: "R$ " + res.data[3].valorproduto,
+          img: res.data[3].imgproduto
         },
       ];
 
@@ -194,18 +198,22 @@ export default {
         {
           produto: res.data[0].nomeproduto,
           preco: "R$ " + res.data[0].valorproduto,
+          img: res.data[0].imgproduto
         },
         {
           produto: res.data[1].nomeproduto,
           preco: "R$ " + res.data[1].valorproduto,
+          img: res.data[1].imgproduto
         },
         {
           produto: res.data[2].nomeproduto,
           preco: "R$ " + res.data[2].valorproduto,
+          img: res.data[2].imgproduto
         },
         {
           produto: res.data[3].nomeproduto,
           preco: "R$ " + res.data[3].valorproduto,
+          img: res.data[3].imgproduto
         },
       ];
     });

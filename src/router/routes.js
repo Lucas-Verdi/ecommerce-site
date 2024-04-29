@@ -5,7 +5,9 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/produtopmn', name: 'produtoPagemain', component: () => import('pages/produtoPagemain.vue') }
+      { path: '/produtopmn', name: 'produtoPagemain', component: () => import('pages/produtoPagemain.vue') },
+      { path: '/produtopcategoria', name: 'produtoCategoria', component: () => import('pages/produtoCategoria.vue') }
+
 
 
     ]
@@ -27,7 +29,10 @@ const routes = [
     children: [
       { path: '/index', name: 'index', component: () => import('pages/IndexPage.vue') },
       { path: '/carrinho', name: 'CarrinhoPage', component: () => import('pages/CarrinhoPage.vue') },
-      { path: '/produto', name: 'produtoPage', component: () => import('pages/produtoPage.vue') }
+      { path: '/produto', name: 'produtoPage', component: () => import('pages/produtoPage.vue') },
+      { path: '/produtopcategorialg', name: 'produtoCategorialg', component: () => import('pages/produtoCategorialg.vue') }
+
+
 
 
     ]
