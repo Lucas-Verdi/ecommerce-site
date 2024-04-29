@@ -58,12 +58,14 @@
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2" :width="180">
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
+          <q-item v-for="(link, index) in links1" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
+              <router-link @click="setCategoria(index)" class="router" to="/produtopcategorialg"><q-item-label>{{
+    link.text
+  }}</q-item-label></router-link>
             </q-item-section>
           </q-item>
 
@@ -98,6 +100,7 @@ import axios from 'axios'
 export default {
   name: 'MyLayout',
   setup() {
+    const links1 = ref([])
     const promocoes = ref([])
     const leftDrawerOpen = ref(true);
     const search = ref('');
@@ -105,6 +108,17 @@ export default {
     const $q = useQuasar()
     const options = ref(promocoes)
 
+    async function setCategoria(i) {
+      const idcategoria = await links1.value[i].idcategoria
+      localStorage.setItem('idcategoria', idcategoria)
+    }
+
+    links1.value = [
+      { icon: 'clock', text: 'Resinas', idcategoria: "1" },
+      { icon: 'clock', text: 'Limas', idcategoria: "2" },
+      { icon: 'clock', text: 'Enxaguantes', idcategoria: "3" },
+      { icon: 'clock', text: 'Clareadores', idcategoria: "4" }
+    ]
 
     async function buscaProdutos() {
       const token = localStorage.getItem("x-access-token");
@@ -163,18 +177,14 @@ export default {
         })
       },
 
-
+      setCategoria,
+      links1,
       promocoes,
       logout,
       fabYoutube,
       leftDrawerOpen,
       search,
       toggleLeftDrawer,
-      links1: [
-        { icon: 'clock', text: 'Categoria' },
-        { icon: 'clock', text: 'Categoria' },
-        { icon: 'clock', text: 'Categoria' }
-      ],
     };
   },
   components: { QList, mobileLayoutLogado }
