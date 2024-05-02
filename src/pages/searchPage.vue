@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <div v-if="$q.screen.gt.sm" class="row text-center q-pt-md q-mb-xl">
+    <div v-if="$q.screen.gt.sm" class="row text-center q-pt-md q-mb-xl q-mr-xl">
       <div v-for="(p, index) in produtos" :key="p.nome" class="col-3 q-pl-xl">
         <q-card filled bordered class="my-card">
           <img :src="p.img" />
@@ -62,9 +62,11 @@ export default {
           },
         }
       );
-      produtos.value = [
-        { nome: res.data[0].nomeproduto, valor: res.data[0].valorproduto, img: res.data[0].imgproduto },
-      ]
+      produtos.value = res.data.map(item => ({
+        nome: item.nomeproduto,
+        valor: item.valorproduto,
+        img: item.imgproduto
+      }))
     })
 
     async function Adicionar(p) {

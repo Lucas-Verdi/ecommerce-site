@@ -48,7 +48,7 @@
         <div class="row text-center">
           <div v-for="(p, index) in promocoes2" :key="p.produto" class="col-3 q-pl-xl">
             <q-card filled bordered class="my-card">
-              <img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+              <img :src="p.img" />
               <q-btn flat dense @click="toPage(index + 4)"><q-card-section>{{ p.produto }}</q-card-section></q-btn>
               <q-card-section>{{ p.preco }}
                 <div class="absolute-top-right q-ma-xs q-pr-sm">
@@ -179,18 +179,22 @@ export default {
         {
           produto: res.data[4].nomeproduto,
           preco: "R$ " + res.data[4].valorproduto,
+          img: res.data[4].imgproduto
         },
         {
           produto: res.data[5].nomeproduto,
           preco: "R$ " + res.data[5].valorproduto,
+          img: res.data[5].imgproduto
         },
         {
           produto: res.data[6].nomeproduto,
           preco: "R$ " + res.data[6].valorproduto,
+          img: res.data[6].imgproduto
         },
         {
           produto: res.data[7].nomeproduto,
           preco: "R$ " + res.data[7].valorproduto,
+          img: res.data[7].imgproduto
         },
       ];
 
