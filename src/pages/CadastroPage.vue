@@ -12,21 +12,21 @@
                     :rules="[
                         val => val !== null && val !== '' || 'Por favor, digite Sua data de nascimento'
                     ]" />
-                <q-input class="col-4" filled type="number" v-model="cpf" label="CPF*" lazy-rules :rules="[
+                <q-input class="col-4" filled type="text" v-model="cpf" label="CPF*" mask="###.###.###-##" lazy-rules :rules="[
                     val => val !== null && val !== '' || 'Por favor, digite seu CPF'
                 ]" />
-                <q-input class="col-4" filled type="number" v-model="celular" label="Celular*" lazy-rules :rules="[
+                <q-input class="col-4" filled type="tel" v-model="celular" label="Celular*" mask="+55 (##) #####-####" lazy-rules :rules="[
                     val => val !== null && val !== '' || 'Por favor, digite seu número de celular'
                 ]" />
                 <q-input class="col-4" filled v-model="email" label="Email*" lazy-rules :rules="[
                     val => val !== null && val !== '' || 'Por favor, digite seu Email'
                 ]" />
                 <q-input type="password" class="col-4" filled v-model="password" label="Senha*" lazy-rules :rules="[
-                    val => val !== null && val !== '' || 'Por favor, digite sua password'
+                    val => val !== null && val !== '' || 'Por favor, digite sua senha'
                 ]" />
-                <q-input type="password" class="col-4" filled v-model="confpassword" label="Confirmar password*" lazy-rules
+                <q-input type="password" class="col-4" filled v-model="confpassword" label="Confirmar senha*" lazy-rules
                     :rules="[
-                        val => val !== null && val !== '' || 'Por favor, confirme sua'
+                        val => val !== null && val !== '' || 'Por favor, confirme sua senha'
                     ]" />
                 <div class="col-12">
                     <q-btn label="Cadastrar" type="submit" color="primary" />
