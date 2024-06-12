@@ -79,7 +79,8 @@ export default {
                 $q: this.$q
             }]
 
-            axios.post('http://localhost:3000/cadastro', null, {
+            if(this.password == this.confpassword){
+                axios.post('http://localhost:3000/cadastro', null, {
                 headers: {
                     'credentials': cryptoCadastro().encryptData(dados)
                 }
@@ -94,6 +95,11 @@ export default {
 
             this.resetDados()
             this.redirectLogin()
+            }
+            else{
+                alert("Senhas não coincidem!")
+            }
+            
         },
 
         resetDados() {

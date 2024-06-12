@@ -26,6 +26,9 @@
         </tbody>
       </q-markup-table>
     </div>
+    <div class="text-right q-pa-md">
+    <q-btn @click="continuar()" color="primary">Continuar</q-btn>
+    </div>
   </q-page>
 </template>
 
@@ -57,6 +60,10 @@ export default {
         }
       })
       exibircarrinho.value = response.data
+    }
+
+    async function continuar(){
+      $router.push('/checkout')
     }
 
     async function removerItem(nomeproduto, valorproduto) {
@@ -91,7 +98,8 @@ export default {
     return {
       removerItem,
       qtd: ref([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]),
-      exibircarrinho
+      exibircarrinho,
+      continuar,
     }
   }
 }

@@ -35,6 +35,8 @@ const routes = [
       { path: '/produto', name: 'produtoPage', component: () => import('pages/produtoPage.vue') },
       { path: '/produtopcategorialg', name: 'produtoCategorialg', component: () => import('pages/produtoCategorialg.vue') },
       { path: '/consultalg', name: 'searchPagelg', component: () => import('pages/searchPagelg.vue') },
+      { path: '/checkout', name: 'checkoutPage', component: () => import('pages/inicioCheckout.vue') },
+
 
 
 
